@@ -3,12 +3,21 @@
 
 static LPCWSTR REG_BASE_SETTINGS_KEY = L"SOFTWARE\\Lithnet\\PasswordFilter";
 static LPCWSTR REG_BASE_POLICY_KEY = L"SOFTWARE\\Policies\\Lithnet\\PasswordFilter";
+static LPCWSTR REG_BASE_GROUPS = L"SOFTWARE\\Policies\\Lithnet\\Groups";
+static LPCWSTR REG_BASE_LISTS = L"SOFTWARE\\Policies\\Lithnet\\Lists";
 
 static LPCWSTR REG_VALUE_STOREPATH = L"Store";
-static LPCWSTR REG_VALUE_DISABLED = L"Disabled";
-static LPCWSTR REG_VALUE_SIMULATE = L"Disabled";
+static LPCWSTR REG_VALUE_ENABLED = L"Enabled";
+static LPCWSTR REG_VALUE_SIMULATE= L"Simulate";
+static LPCWSTR REG_VALUE_GROUPMATCH = L"GroupMatching";
+static LPCWSTR REG_VALUE_GROUPMATCH_REQUIRED = L"GroupMatchRequired";
+
+static LPCWSTR REG_VALUE_CATPASSWORDCOMPLEXITY = L"CatPasswordComplexity";
+static LPCWSTR REG_VALUE_CATREGEX = L"CatRegex";
+static LPCWSTR REG_VALUE_CATLENGTHBASEDCOMPLEXITY = L"CatLenghtBasedComplexity";
 
 static LPCWSTR REG_VALUE_MINIMUMLENGTH = L"MinimumLength";
+static LPCWSTR REG_VALUE_MAXIMUMLENGTH = L"MaximumLength";
 
 static LPCWSTR REG_VALUE_CHECKNORMALIZEDBANNEDPASSWORDONCHANGE = L"CheckNormalizedPasswordNotInBannedPasswordStoreOnChange";
 static LPCWSTR REG_VALUE_CHECKNORMALIZEDBANNEDPASSWORDONSET = L"CheckNormalizedPasswordNotInBannedPasswordStoreOnSet";
@@ -71,6 +80,9 @@ private:
 	std::wstring policyGroup;
 	std::wstring settingsKeyName;
 	std::wstring policyKeyName;
+	std::wstring policyGroups;
+	std::wstring policyLists;
+	bool debug;
 
 public:
 	registry();
@@ -79,12 +91,18 @@ public:
 	std::wstring GetRegValue(const std::wstring & valueName, const std::wstring & defaultValue) const;
 	DWORD GetRegValue(const std::wstring & valueName, DWORD defaultValue) const;
 	static registry GetRegistryForUser(const std::wstring & user);
-
+	const std::wstring GetRegGroups(const std::wstring defaultValue) const;
+	const std::wstring GetRegGroupsPolicy(const std::wstring& valueName, const std::wstring defaultValue) const;
+	const std::wstring GetStoreValue(const std::wstring valueName, const std::wstring defaultValue) const;
+	std::wstring GetPolicyName();
+	bool registry::GetDebug();
 private:
 	DWORD GetPolicyOrSettingsValue(const std::wstring & valueName, DWORD defaultValue) const;
 	const std::wstring GetKeyName(LPCWSTR& key) const;
 	const std::wstring GetPolicyOrSettingsValue(const std::wstring & valueName, const std::wstring & defaultValue) const;
 	const std::wstring GetValueString(DWORD & dwBufferSize, const std::wstring & keyName, const std::wstring & valueName, const std::wstring & defaultValue) const;
+	const std::wstring GetDefaultValueString(DWORD& dwBufferSize, const std::wstring& keyName, const std::wstring& defaultValue) const;
+	wchar_t* GetDefaultValueString(DWORD& dwBufferSize, const std::wstring& keyName,  wchar_t* defaultValue) const;
 };
 
 

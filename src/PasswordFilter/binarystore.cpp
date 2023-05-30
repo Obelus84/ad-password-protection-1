@@ -11,6 +11,8 @@
 
 binarystore::binarystore(const std::wstring& storeBasePath, const std::wstring& storeSubPathPasswordStore, const std::wstring& storeSubPathWordStore, int hashSize, int hashOffset)
 {
+
+	
 	this->hashSize = hashSize;
 	this->storeSubPathPasswordStore = storeSubPathPasswordStore;
 	this->storeSubPathWordStore = storeSubPathWordStore;
@@ -30,11 +32,10 @@ binarystore::binarystore(const std::wstring& storeBasePath, const std::wstring& 
 		if (!CreateDirectory(storeBasePath.c_str(), NULL))
 		{
 			const DWORD error = GetLastError();
-			eventlog::getInstance().logw(EVENTLOG_ERROR_TYPE, MSG_STOREERROR, 2, std::to_wstring(error).c_str(), storeBasePath.c_str());
+			eventlog::getInstance().logw(EVENTLOG_ERROR_TYPE, MSG_STOREERROR, 1, std::to_wstring(error).c_str());
 			throw std::system_error(error, std::system_category(), "Failed to create the store folder");
 		}
 	}
-
 	PathCombine(passwordStorePath, storeBasePath.c_str(), storeSubPathPasswordStore.c_str());
 	PathCombine(wordStorePath, storeBasePath.c_str(), storeSubPathWordStore.c_str());
 
@@ -63,6 +64,8 @@ bool binarystore::IsHashInPasswordStore(const SecureArrayT<BYTE> &hash)
 {
 	std::wstring path = GetPasswordStoreFileName(GetRangeFromHash(hash));
 
+	//eventlog::getInstance().writeToFileLog(L"Using Password Store File: " + path + L"\n");
+
 	DWORD attr = GetFileAttributes(path.c_str());
 	if (attr == INVALID_FILE_ATTRIBUTES || (attr & FILE_ATTRIBUTE_DIRECTORY))
 	{
@@ -75,6 +78,8 @@ bool binarystore::IsHashInPasswordStore(const SecureArrayT<BYTE> &hash)
 bool binarystore::IsHashInWordStore(const SecureArrayT<BYTE> &hash)
 {
 	std::wstring path = GetWordStoreFileName(GetRangeFromHash(hash));
+
+	//eventlog::getInstance().writeToFileLog(L"Using Word Store File: " + path + L"\n");
 
 	DWORD attr = GetFileAttributes(path.c_str());
 	if (attr == INVALID_FILE_ATTRIBUTES || (attr & FILE_ATTRIBUTE_DIRECTORY))
@@ -109,6 +114,7 @@ bool binarystore::IsHashInBinaryFile(const std::wstring &filename, const SecureA
 	std::wstring message = L"Searching ";
 	message += filename;
 	OutputDebugString(message.c_str());
+	//eventlog::getInstance().writeToFileLog(message.c_str());
 
 	long length = static_cast<long>(file.tellg());
 
@@ -147,12 +153,14 @@ bool binarystore::IsHashInBinaryFile(const std::wstring &filename, const SecureA
 			message = L"Hash found at row ";
 			message += std::to_wstring(currentRow);
 			OutputDebugString(message.c_str());
+			//eventlog::getInstance().writeToFileLog(message.c_str());
 			file.close();
 			return true;
 		}
 	}
 
 	OutputDebugString(L"Hash not found");
+	//eventlog::getInstance().writeToFileLog("Hash not found\n");
 	file.close();
 	return false;
 }

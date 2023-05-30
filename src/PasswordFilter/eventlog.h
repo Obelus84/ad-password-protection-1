@@ -14,8 +14,8 @@ public:
 	}
 	
 	static void init();
-	static void writeToFileLog(const std::wstring& message);
-	static void writeToFileLog(const std::string& message);
+	static void writeToFileLog(const std::wstring accountName, const std::wstring& message);
+	static void writeToFileLog(const std::wstring accountName, const std::string& message);
 
 	eventlog(eventlog const&) = delete;
 	void operator=(eventlog const&) = delete;

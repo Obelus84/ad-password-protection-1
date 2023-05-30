@@ -10,7 +10,6 @@ private:
 	int hashOffset;
 	std::wstring storeSubPathPasswordStore;
 	std::wstring storeSubPathWordStore;
-	std::wstring storeBasePath;
 	std::wstring storePathPasswordStore;
 	std::wstring storePathWordStore;
 
@@ -19,6 +18,7 @@ public:
 	virtual ~binarystore();
 	bool IsPasswordInPasswordStore(const SecureArrayT<WCHAR> &password);
 
+	std::wstring storeBasePath;
 	bool IsPasswordInWordStore(const SecureArrayT<WCHAR>& password);
 
 protected:

@@ -58,9 +58,29 @@
 //
 // MessageText:
 //
-// The password filter is currently disabled and has not evaluated the password change request.
+// The password filter is currently disabled and has not evaluated the password change request.%n
+// Disabled at: %1
 //
 #define MSG_AGENT_DISABLED               ((DWORD)0x80040002L)
+
+//
+// MessageId: MSG_GROUP_MATCHING_REQUIRED
+//
+// MessageText:
+//
+// Password reset for %1 was skipped because group matching is required and user is not a member of any potential enabled groups.%n
+// Groups Checked: %2
+//
+#define MSG_GROUP_MATCHING_REQUIRED      ((DWORD)0x80040020L)
+
+//
+// MessageId: MSG_GROUP_DISABLED
+//
+// MessageText:
+//
+// The password filter %1 disabled, password filters for %2 will not be evaluated.%n
+//
+#define MSG_GROUP_DISABLED               ((DWORD)0x80040021L)
 
 //
 // MessageId: MSG_AGENT_INITIALIZED
@@ -76,7 +96,13 @@
 //
 // MessageText:
 //
-// Processing a password %1 request for %2 (%3).
+// Processing password request%n
+// Action: %1%n
+// UserName: %2%n
+// Full Name: %3%n
+// Poilcy: %4%n
+// List: %5%n
+// Status Processing
 //
 #define MSG_PROCESSING_REQUEST           ((DWORD)0x00000004L)
 
@@ -85,7 +111,13 @@
 //
 // MessageText:
 //
-// The password %1 request for %2 (%3) was approved.
+// Completed password request%n
+// Action: %1%n
+// UserName: %2%n
+// Full Name: %3%n
+// Policy: %4%n
+// List: %5%n
+// Status Completed
 //
 #define MSG_PASSWORD_APPROVED            ((DWORD)0x00000005L)
 
@@ -95,7 +127,7 @@
 // MessageText:
 //
 // An unexpected error occurred.
-// Error code: %1
+// Error code: %1%n
 // Message: %2
 //
 #define MSG_WIN32ERROR                   ((DWORD)0xC0020008L)
@@ -105,9 +137,8 @@
 //
 // MessageText:
 //
-// There was a problem opening the store file. Check that the store folder exists and is accessible.\n
+// There was a problem opening the store file. Check that the store folder exists and is accessible%n%n
 // Error code: %1
-// Path: %2
 //
 #define MSG_STOREERROR                   ((DWORD)0xC0020009L)
 
@@ -130,11 +161,21 @@
 #define MSG_PASSWORD_REJECTED_MINLENGTH  ((DWORD)0x80002002L)
 
 //
+// MessageId: MSG_PASSWORD_REJECTED_MAXLENGTH
+//
+// MessageText:
+//
+// The password %1 request for %2 (%3) was rejected because its length (%4) greather than the maximum configured length (%5).
+//
+#define MSG_PASSWORD_REJECTED_MAXLENGTH  ((DWORD)0x80002012L)
+
+//
 // MessageId: MSG_PASSWORD_REJECTED_BANNED
 //
 // MessageText:
 //
-// The password %1 request for %2 (%3) was rejected because it matched a password in the compromised password store.
+// The password %1 request for %2 (%3) was rejected because it matched a password in the compromised password store%n
+// %4.
 //
 #define MSG_PASSWORD_REJECTED_BANNED     ((DWORD)0x80002003L)
 
@@ -143,7 +184,8 @@
 //
 // MessageText:
 //
-// The password %1 request for %2 (%3) was rejected after being normalized because it matched a password in the compromised password store.
+// The password %1 request for %2 (%3) was rejected after being normalized because it matched a password in the compromised password store%n
+// %4.
 //
 #define MSG_PASSWORD_REJECTED_BANNED_NORMALIZED_PASSWORD ((DWORD)0x80002004L)
 
@@ -152,7 +194,8 @@
 //
 // MessageText:
 //
-// The password %1 request for %2 (%3) was rejected because it did not match the approval regular expression.
+// The password %1 request for %2 (%3) was rejected because it did not match the approval regular expression%n
+// %4.
 //
 #define MSG_PASSWORD_REJECTED_APPROVAL_REGEX ((DWORD)0x80002005L)
 
@@ -161,7 +204,8 @@
 //
 // MessageText:
 //
-// The password %1 request for %2 (%3) was rejected because it matched the rejection regular expression.
+// The password %1 request for %2 (%3) was rejected because it matched the rejection regular expression%n
+// %4.
 //
 #define MSG_PASSWORD_REJECTED_REJECTION_REGEX ((DWORD)0x80002006L)
 
@@ -224,7 +268,8 @@
 //
 // MessageText:
 //
-// The password %1 request for %2 (%3) was rejected after being normalized because it matched a password in the banned word store.
+// The password %1 request for %2 (%3) was rejected after being normalized because it matched a password in the banned word store%N
+// %4.
 //
 #define MSG_PASSWORD_REJECTED_BANNED_NORMALIZED_WORD ((DWORD)0x8000200DL)
 

@@ -30,7 +30,25 @@ Severity=Warning
 Facility=Io
 SymbolicName=MSG_AGENT_DISABLED
 Language=English
-The password filter is currently disabled and has not evaluated the password change request.
+The password filter is currently disabled and has not evaluated the password change request.%n
+Disabled at: %1
+.
+
+MessageId=0x20
+Severity=Warning
+Facility=Io
+SymbolicName=MSG_GROUP_MATCHING_REQUIRED
+Language=English
+Password reset for %1 was skipped because group matching is required and user is not a member of any potential enabled groups.%n
+Groups Checked: %2
+.
+
+MessageId=0x21
+Severity=Warning
+Facility=Io
+SymbolicName=MSG_GROUP_DISABLED
+Language=English
+The password filter %1 disabled, password filters for %2 will not be evaluated.%n
 .
 
 MessageId=0x3
@@ -46,7 +64,13 @@ Severity=Success
 Facility=System
 SymbolicName=MSG_PROCESSING_REQUEST
 Language=English
-Processing a password %1 request for %2 (%3).
+Processing password request%n
+Action: %1%n
+UserName: %2%n
+Full Name: %3%n
+Poilcy: %4%n
+List: %5%n
+Status Processing
 .
 
 MessageId=0x5
@@ -54,7 +78,13 @@ Severity=Success
 Facility=System
 SymbolicName=MSG_PASSWORD_APPROVED
 Language=English
-The password %1 request for %2 (%3) was approved.
+Completed password request%n
+Action: %1%n
+UserName: %2%n
+Full Name: %3%n
+Policy: %4%n
+List: %5%n
+Status Completed
 .
 
 MessageId=0x8
@@ -63,7 +93,7 @@ Facility=Runtime
 SymbolicName=MSG_WIN32ERROR
 Language=English
 An unexpected error occurred.
-Error code: %1
+Error code: %1%n
 Message: %2
 .
 
@@ -72,9 +102,8 @@ Severity=Error
 Facility=Runtime
 SymbolicName=MSG_STOREERROR
 Language=English
-There was a problem opening the store file. Check that the store folder exists and is accessible.
+There was a problem opening the store file. Check that the store folder exists and is accessible%n%n
 Error code: %1
-Path: %2
 .
 
 MessageId=0x2001
@@ -93,12 +122,21 @@ Language=English
 The password %1 request for %2 (%3) was rejected because its length (%4) did not meet the minimum configured length (%5).
 .
 
+MessageId=0x2012
+Severity=Warning
+Facility=System
+SymbolicName=MSG_PASSWORD_REJECTED_MAXLENGTH
+Language=English
+The password %1 request for %2 (%3) was rejected because its length (%4) greather than the maximum configured length (%5).
+.
+
 MessageId=0x2003
 Severity=Warning
 Facility=System
 SymbolicName=MSG_PASSWORD_REJECTED_BANNED
 Language=English
-The password %1 request for %2 (%3) was rejected because it matched a password in the compromised password store.
+The password %1 request for %2 (%3) was rejected because it matched a password in the compromised password store%n
+%4.
 .
 
 MessageId=0x2004
@@ -106,7 +144,8 @@ Severity=Warning
 Facility=System
 SymbolicName=MSG_PASSWORD_REJECTED_BANNED_NORMALIZED_PASSWORD
 Language=English
-The password %1 request for %2 (%3) was rejected after being normalized because it matched a password in the compromised password store.
+The password %1 request for %2 (%3) was rejected after being normalized because it matched a password in the compromised password store%n
+%4.
 .
 
 MessageId=0x2005
@@ -114,7 +153,8 @@ Severity=Warning
 Facility=System
 SymbolicName=MSG_PASSWORD_REJECTED_APPROVAL_REGEX
 Language=English
-The password %1 request for %2 (%3) was rejected because it did not match the approval regular expression.
+The password %1 request for %2 (%3) was rejected because it did not match the approval regular expression%n
+%4.
 .
 
 MessageId=0x2006
@@ -122,7 +162,8 @@ Severity=Warning
 Facility=System
 SymbolicName=MSG_PASSWORD_REJECTED_REJECTION_REGEX
 Language=English
-The password %1 request for %2 (%3) was rejected because it matched the rejection regular expression.
+The password %1 request for %2 (%3) was rejected because it matched the rejection regular expression%n
+%4.
 .
 
 MessageId=0x2007
@@ -178,5 +219,6 @@ Severity=Warning
 Facility=System
 SymbolicName=MSG_PASSWORD_REJECTED_BANNED_NORMALIZED_WORD
 Language=English
-The password %1 request for %2 (%3) was rejected after being normalized because it matched a password in the banned word store.
+The password %1 request for %2 (%3) was rejected after being normalized because it matched a password in the banned word store%N
+%4.
 .

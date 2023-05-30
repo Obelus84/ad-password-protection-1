@@ -5,6 +5,9 @@
 #include <Shlwapi.h>
 #include "messages.h"
 #include <mutex>
+#include <ctime>
+#include <iomanip>
+
 
 HANDLE eventlog::hlog;
 std::mutex eventlog::lock;
@@ -58,7 +61,7 @@ void eventlog::init()
 	}
 }
 
-void eventlog::writeToFileLog(const std::string& message)
+void eventlog::writeToFileLog(const std::wstring accountName, const std::string& message)
 {
 	std::ofstream outfile;
 	const LPCWSTR sourcepath = L"%windir%\\logs\\lpp.log";
@@ -79,13 +82,22 @@ void eventlog::writeToFileLog(const std::string& message)
 		// error
 		return;
 	}
+	std::time_t t = std::time(nullptr);
+	std::tm tm;
+	localtime_s(&tm, &t);
+
+	std::wstring format = L"%Y-%m-%d %H:%M:%S";
+	wchar_t buffer[100];
+	std::wcsftime(buffer, 100, format.c_str(), &tm);
+
+	std::wstring datetime(buffer);
 
 	outfile.open(buf.data(), std::ios_base::app);
-	outfile << message;
+	outfile << std::string(datetime.begin(),datetime.end()) << "     " << std::string(accountName.begin(),accountName.end()) << "     " << message;
 	outfile.close();
 }
 
-void eventlog::writeToFileLog(const std::wstring& message)
+void eventlog::writeToFileLog(const std::wstring accountName, const std::wstring& message)
 {
 	std::wofstream outfile;
 	const LPCWSTR sourcepath = L"%windir%\\logs\\lpp.log";
@@ -107,8 +119,19 @@ void eventlog::writeToFileLog(const std::wstring& message)
 		return;
 	}
 
+	std::time_t t = std::time(nullptr);
+	std::tm tm;
+	localtime_s(&tm,&t);
+
+	std::wstring format = L"%Y-%m-%d %H:%M:%S";
+
+	wchar_t buffer[100];
+	std::wcsftime(buffer, 100, format.c_str(), &tm);
+
+	std::wstring datetime(buffer);
+
 	outfile.open(buf.data(), std::ios_base::app);
-	outfile << message;
+	outfile << datetime << L"     " << accountName << L"     " << message;
 	outfile.close();
 }
 
@@ -127,7 +150,7 @@ HANDLE eventlog::getHandle()
 				if (eventlog::hlog == NULL)
 				{
 					const std::wstring message = L"Could not register event source LithnetPasswordProtection: " + std::to_wstring(GetLastError()) + L"\r\n";
-					writeToFileLog(message);
+					writeToFileLog(L"",message);
 				}
 			}
 		}

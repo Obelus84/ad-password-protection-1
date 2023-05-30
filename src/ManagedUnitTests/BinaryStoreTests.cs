@@ -23,6 +23,7 @@ namespace ManagedUnitTests
 
         protected abstract string GetPrefixFromHash(string hash);
 
+
         [TestInitialize]
         public void Initialize()
         {
